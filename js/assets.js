@@ -1,4 +1,5 @@
 var spriteAssets = {
+	'background': ['img/background.png'],
 	'yoyo': 
 		['img/yoyo1.png',
 		'img/yoyo2.png',

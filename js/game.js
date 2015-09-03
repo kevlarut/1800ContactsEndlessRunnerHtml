@@ -3,12 +3,17 @@ var game = new function() {
 	var canvas = null;
 	var context = null;
 	var frameRate = 6;
-	var sprites = [];
+	var sprites = {};
 			
-	this.preLoadImages = function() {	
-		var yoyoSprite = new sprite();
-		yoyoSprite.preLoadImages(spriteAssets.yoyo);
-		sprites.push(yoyoSprite);
+	this.preLoadImages = function() {
+		for (var key in spriteAssets) {
+			if (spriteAssets.hasOwnProperty(key)) {
+				var spriteAsset = spriteAssets[key];
+				var currentSprite = new sprite();				
+				currentSprite.preLoadImages(spriteAsset);
+				sprites[key] = currentSprite;
+			}
+		}
 	}
 	
 	this.start = function() {
@@ -22,10 +27,13 @@ var game = new function() {
 		
 	this.gameLoop = function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		for (var i = 0; i < sprites.length; i++) {
-			var sprite = sprites[i];
-			sprite.render(context, 140, 90);
-			sprite.updateAnimationFrame();
+		sprites['background'].render(context, 0, 0);
+		sprites['yoyo'].render(context, 140, 90);
+		
+		for (var key in sprites) {
+			if (sprites.hasOwnProperty(key)) {			
+				sprites[key].updateAnimationFrame();
+			}
 		}
 	}
 }
