@@ -4,6 +4,7 @@ var game = new function() {
 	var context = null;
 	var frameRate = 6;
 	var sprites = {};
+	var mountains = {};
 			
 	this.preLoadImages = function() {
 		for (var key in spriteAssets) {
@@ -14,6 +15,8 @@ var game = new function() {
 				sprites[key] = currentSprite;
 			}
 		}
+		mountains = new background();
+		mountains.preLoadImages(['img/background.png']);
 	}
 	
 	this.start = function() {
@@ -27,14 +30,15 @@ var game = new function() {
 		
 	this.gameLoop = function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		sprites['background'].render(context, 0, 0);
+		mountains.render(context, 0, 0);
 		sprites['yoyo'].render(context, 140, 90);
 		
 		for (var key in sprites) {
 			if (sprites.hasOwnProperty(key)) {			
-				sprites[key].updateAnimationFrame();
+				sprites[key].update();
 			}
 		}
+		mountains.update();
 	}
 }
 
