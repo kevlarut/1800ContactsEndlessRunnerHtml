@@ -11,7 +11,7 @@ function background() {
 	}
 	
 	this.update = function() {
-		var speed = 10;
+		var speed = 1;
 		var width = this.frameImages[0].width;
 		this.x -= speed;
 		if (this.x < 0 - width) {
