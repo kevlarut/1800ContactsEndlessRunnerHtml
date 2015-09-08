@@ -48,7 +48,8 @@ var game = new function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		mountains.render(context, 0, 0);
 		trees.render(context, 0, 0);
-		sprites['running'].render(context, 140, 90);
+		sprites['running'].render(context, 140, 100);
+		sprites['grass'].render(context, 0, 146);
 		
 		for (var key in sprites) {
 			if (sprites.hasOwnProperty(key)) {			

@@ -22,5 +22,8 @@ var spriteAssets = {
 		'img/yoyo6.png',
 		'img/yoyo7.png',
 		'img/yoyo8.png'
+	],
+	'grass': [
+		'img/grass-foreground.png'
 	]
 }
