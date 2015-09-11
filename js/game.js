@@ -5,6 +5,7 @@ var game = new function() {
 	var frameRate = 20;
 	var sprites = {};
 	var mountains = {};
+	var grass = {};
 	var trees = {};
 			
 	this.preLoadImages = function() {
@@ -16,8 +17,14 @@ var game = new function() {
 				sprites[key] = currentSprite;
 			}
 		}
+				
 		mountains = new background();
 		mountains.preLoadImages(['img/background.png']);
+		mountains.speed = 1;
+		
+		grass = new background();
+		grass.preLoadImages(['img/grass-foreground.png']);
+		grass.speed = 8;
 		
 		trees = new treeManager();
 		trees.preLoadImages([
@@ -49,13 +56,15 @@ var game = new function() {
 		mountains.render(context, 0, 0);
 		trees.render(context, 0, 0);
 		sprites['running'].render(context, 140, 100);
-		sprites['grass'].render(context, 0, 146);
+		grass.render(context, 0, 146);
+		//console.log(grass.
 		
 		for (var key in sprites) {
 			if (sprites.hasOwnProperty(key)) {			
 				sprites[key].update();
 			}
 		}
+		grass.update();
 		mountains.update();
 		trees.update();
 	}

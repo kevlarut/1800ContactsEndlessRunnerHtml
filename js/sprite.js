@@ -1,13 +1,12 @@
 var sprite = function() {
 	this.animationIndex = 0;
 	this.frameImages = [];
-	
-	this.preLoadImages = function(frameSources) {
-		for (var i = 0; i < frameSources.length; i++) {
-			var image = new Image;
-			image.src = frameSources[i];
-			this.frameImages.push(image);
-		}
+}
+sprite.prototype.preLoadImages = function(frameSources) {
+	for (var i = 0; i < frameSources.length; i++) {
+		var image = new Image;
+		image.src = frameSources[i];
+		this.frameImages.push(image);
 	}
 }
 
