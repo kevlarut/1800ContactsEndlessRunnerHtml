@@ -22,6 +22,8 @@ var game = new function() {
 		mountains.preLoadImages(['img/background.png']);
 		mountains.speed = 1;
 		
+		player.preLoadImages();
+		
 		grass = new background();
 		grass.preLoadImages(['img/grass-foreground.png']);
 		grass.speed = 8;
@@ -49,21 +51,31 @@ var game = new function() {
 		if (window.location.protocol == 'file:') {
 			console.error('Tree rendering will not work when using the file protocol.  Use http or https instead.');
 		}
+		
+		window.document.onkeydown = function(event) {
+			var SPACE = 32;
+			switch (event.keyCode) {
+				case SPACE:
+					player.jump();
+					break;
+			}
+		}
 	}
 		
 	this.gameLoop = function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		mountains.render(context, 0, 0);
 		trees.render(context, 0, 0);
-		sprites['running'].render(context, 140, 100);
+		player.render(context, 140, 100);
+		player.render(context, 140, 100);
 		grass.render(context, 0, 146);
-		//console.log(grass.
 		
 		for (var key in sprites) {
 			if (sprites.hasOwnProperty(key)) {			
 				sprites[key].update();
 			}
 		}
+		player.update();
 		grass.update();
 		mountains.update();
 		trees.update();
