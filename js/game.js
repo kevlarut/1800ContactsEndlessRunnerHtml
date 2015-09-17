@@ -7,6 +7,8 @@ var game = new function() {
 	var mountains = {};
 	var grass = {};
 	var trees = {};
+	var snakes = [];
+	var lastSnakeSpawnEventTime = null;
 			
 	this.preLoadImages = function() {
 		for (var key in spriteAssets) {
@@ -69,6 +71,10 @@ var game = new function() {
 		player.render(context, 140, 100);
 		player.render(context, 140, 100);
 		grass.render(context, 0, 146);
+		for (var i = 0; i < snakes.length; i++) {
+			var snake = snakes[i];
+			sprites['snake'].render(context, snake.x, snake.y);
+		}
 		
 		for (var key in sprites) {
 			if (sprites.hasOwnProperty(key)) {			
@@ -79,6 +85,29 @@ var game = new function() {
 		grass.update();
 		mountains.update();
 		trees.update();
+		
+		var snakeSpeed = 8;
+		for (var i = snakes.length - 1; i >= 0; i--) {
+			var snake = snakes[i];
+			snake.x -= snakeSpeed;
+			if (snake.x <= -64) {
+				snakes.splice(i, 1);
+			}
+		}
+		
+		var minimumSpawnDelay = 500;
+		var now = new Date().getTime();
+		if (lastSnakeSpawnEventTime == null || now >= lastSnakeSpawnEventTime + minimumSpawnDelay) {
+			var snakeSpawnChance = 1 / 5;
+			if (Math.random() < snakeSpawnChance) {
+				var snake = {
+					x: 400,
+					y: 105
+				};
+				snakes.push(snake);
+			}
+			lastSnakeSpawnEventTime = now;
+		}
 	}
 }
 

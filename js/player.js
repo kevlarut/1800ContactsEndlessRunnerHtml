@@ -1,7 +1,7 @@
 var player = new function() {
 
-	var jumpHeight = 48;
-	var jumpSpeed = 8;
+	var jumpHeight = 90;
+	var jumpSpeed = 16;
 	var localY = 0;
 	
 	var assets = {
