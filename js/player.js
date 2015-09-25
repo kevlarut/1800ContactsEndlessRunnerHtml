@@ -4,6 +4,11 @@ var player = new function() {
 	var jumpSpeed = 16;
 	var localY = 0;
 	
+	this.x = 140;
+	this.y = 100;
+	this.height = 64;
+	this.width = 64;
+	
 	var assets = {
 		'running': [
 			'img/running01.png',
@@ -39,8 +44,8 @@ var player = new function() {
 	var sprites = [];
 	var currentState = 'running';
 	
-	this.render = function(context, x, y) {
-		sprites[currentState].render(context, x, y - localY);
+	this.render = function(context) {
+		sprites[currentState].render(context, this.x, this.y - localY);
 	}
 
 	this.update = function() {

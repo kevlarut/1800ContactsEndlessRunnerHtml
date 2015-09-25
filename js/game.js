@@ -45,7 +45,7 @@ var game = new function() {
 	this.start = function() {
 		canvas = document.getElementById('game');		
 		context = canvas.getContext('2d');		
-		this.preLoadImages();
+		this.preLoadImages();		
 				
 		this.gameLoop();
 		setInterval(this.gameLoop, 1000 / frameRate);
@@ -68,8 +68,7 @@ var game = new function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		mountains.render(context, 0, 0);
 		trees.render(context, 0, 0);
-		player.render(context, 140, 100);
-		player.render(context, 140, 100);
+		player.render(context);
 		grass.render(context, 0, 146);
 		for (var i = 0; i < snakes.length; i++) {
 			var snake = snakes[i];
@@ -93,6 +92,11 @@ var game = new function() {
 			if (snake.x <= -64) {
 				snakes.splice(i, 1);
 			}
+			else {
+				if (snake.x + snake.width >= player.x && snake.x <= player.x + player.width && snake.y + snake.height >= player.y && snake.y <= player.y + player.height) {
+					console.log("Collision!");
+				}
+			}			
 		}
 		
 		var minimumSpawnDelay = 500;
@@ -102,7 +106,9 @@ var game = new function() {
 			if (Math.random() < snakeSpawnChance) {
 				var snake = {
 					x: 400,
-					y: 105
+					y: 105,
+					width: 64,
+					height: 64
 				};
 				snakes.push(snake);
 			}
