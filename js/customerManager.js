@@ -3,23 +3,28 @@ var customerManager = new function() {
 	var assets = {
 		'my-brand': [
 			'img/customer.png',
-			'img/customer-happy.png'
+			'img/customer-happy.png',
+			'img/dialog-my-brand.png'
 		],
 		'date-night': [
 			'img/customer-date.png',
-			'img/customer-date-night.png'
+			'img/customer-date-night.png',
+			'img/dialog-my-brand.png' //TODO: Draw a new portrait
 		],
 		'girl': [
 			'img/customer-girl.png',
-			'img/customer-girl-happy.png'
+			'img/customer-girl-happy.png',
+			'img/dialog-my-brand.png' //TODO: Draw a new portrait
 		],
 		'pirate': [
 			'img/customer-pirate.png',
-			'img/customer-pirate-happy.png'
+			'img/customer-pirate-happy.png',
+			'img/dialog-my-brand.png' //TODO: Draw a new portrait
 		],
 		'the-fall': [
 			'img/customer-the-fall.png',
-			'img/customer-the-fall-happy.png'
+			'img/customer-the-fall-happy.png',
+			'img/dialog-my-brand.png' //TODO: Draw a new portrait
 		]
 	};
 	var customers = [];
@@ -42,6 +47,9 @@ var customerManager = new function() {
 			var customer = customers[i];
 			var frameIndex = customer.isHappy ? 1 : 0;
 			sprites[customer.type].renderFrame(context, customer.x, customer.y, frameIndex);
+			if (customer.isHappy) {
+				sprites[customer.type].renderFrame(context, 64, 16, 2);
+			}
 		}
 	}
 
