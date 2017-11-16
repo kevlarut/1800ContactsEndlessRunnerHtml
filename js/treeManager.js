@@ -62,33 +62,31 @@ var treeManager = new function() {
 	}
 	
 	this.update = function() {			
-		var spawnChance = 1 / 20;
+		var spawnChance = 1 / 10;
 	
 		if (Math.random() < spawnChance) {
 			this.spawnRandomTree();
 		}
 	
-		var speed = 10;
+		var speed = 8;
 		var boundaryToDelete = -500;
 		for (var i = 0; i < treeForeground.length; i++) {
 			var tree = treeForeground[i];
-			tree.x -= 2;
+			tree.x -= speed;
 			if (tree.x < boundaryToDelete) {
 				treeForeground.splice(i--, 1);
 			}
 		}
 		for (var i = 0; i < treeMidground.length; i++) {
 			var tree = treeMidground[i];
-			tree.x -= 1.25;
-			tree.x -= 2;
+			tree.x -= speed / 2;
 			if (tree.x < boundaryToDelete) {
 				treeMidground.splice(i--, 1);
 			}
 		}
 		for (var i = 0; i < treeBackground.length; i++) {
 			var tree = treeBackground[i];
-			tree.x -= 0.5;
-			tree.x -= 2;
+			tree.x -= speed / 4;
 			if (tree.x < boundaryToDelete) {
 				treeBackground.splice(i--, 1);
 			}
