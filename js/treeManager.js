@@ -1,6 +1,6 @@
-treeManager.prototype = new sprite();
-treeManager.prototype.constructor = treeManager;
-function treeManager() {
+TreeManager.prototype = new Sprite();
+TreeManager.prototype.constructor = TreeManager;
+function TreeManager() {
 
 	this.startingX = 0;
 	this.x = 0;

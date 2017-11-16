@@ -1,26 +1,27 @@
-background.prototype = new sprite();
-background.prototype.constructor = background;
-function background() {
+Background.prototype = new Sprite();
+Background.prototype.constructor = Background;
+function Background() {
 	this.startingX = 0;
 	this.x = 0;
 	this.frameImages = [];
 	this.speed = 1;
 }
 
-background.prototype.render = function(context, x, y) {
+Background.prototype.render = function(context, x, y) {
 	var width = this.frameImages[0].width;
-	sprite.prototype.render.call(this, context, x + this.x, y);
-	sprite.prototype.render.call(this, context, x + this.x + width, y);
+	Sprite.prototype.render.call(this, context, x + this.x, y);
+	Sprite.prototype.render.call(this, context, x + this.x + width, y);
 }
 
-background.prototype.update = function() {
+Background.prototype.update = function() {
 	var width = this.frameImages[0].width;
 	this.x -= this.speed;
 	if (this.x < 0 - width) {
 		this.x = 0;
 	}
-	sprite.prototype.update(this);
+	Sprite.prototype.update(this);
 }
-background.prototype.preLoadImages = function(frameSources) {
-	sprite.prototype.preLoadImages.call(this, frameSources);
+
+Background.prototype.preLoadImages = function(frameSources) {
+	Sprite.prototype.preLoadImages.call(this, frameSources);
 }

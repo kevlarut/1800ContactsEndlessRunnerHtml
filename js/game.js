@@ -14,23 +14,23 @@ var game = new function() {
 		for (var key in spriteAssets) {
 			if (spriteAssets.hasOwnProperty(key)) {
 				var spriteAsset = spriteAssets[key];
-				var currentSprite = new sprite();				
+				var currentSprite = new Sprite();				
 				currentSprite.preLoadImages(spriteAsset);
 				sprites[key] = currentSprite;
 			}
 		}
 				
-		mountains = new background();
+		mountains = new Background();
 		mountains.preLoadImages(['img/background.png']);
 		mountains.speed = 1;
 		
 		player.preLoadImages();
 		
-		grass = new background();
+		grass = new Background();
 		grass.preLoadImages(['img/grass-foreground.png']);
 		grass.speed = 8;
 		
-		trees = new treeManager();
+		trees = new TreeManager();
 		trees.preLoadImages([
 			'img/tree1.png',
 			'img/tree2.png',
@@ -56,7 +56,9 @@ var game = new function() {
 		
 		window.document.onkeydown = function(event) {
 			var SPACE = 32;
+			var UP = 38;
 			switch (event.keyCode) {
+				case UP:
 				case SPACE:
 					player.jump();
 					break;
@@ -85,6 +87,8 @@ var game = new function() {
 		mountains.update();
 		trees.update();
 		
+		var now = new Date().getTime();
+		
 		var snakeSpeed = 8;
 		for (var i = snakes.length - 1; i >= 0; i--) {
 			var snake = snakes[i];
@@ -93,23 +97,20 @@ var game = new function() {
 				snakes.splice(i, 1);
 			}
 			else {
-				if (snake.x + snake.width >= player.x && snake.x <= player.x + player.width && snake.y + snake.height >= player.y && snake.y <= player.y + player.height) {
-					console.log("Collision!");
+				if (snake.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
+					&& snake.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
+					&& snake.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
+					&& snake.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
+					player.hurt();
 				}
 			}			
 		}
 		
 		var minimumSpawnDelay = 500;
-		var now = new Date().getTime();
 		if (lastSnakeSpawnEventTime == null || now >= lastSnakeSpawnEventTime + minimumSpawnDelay) {
 			var snakeSpawnChance = 1 / 5;
 			if (Math.random() < snakeSpawnChance) {
-				var snake = {
-					x: 400,
-					y: 105,
-					width: 64,
-					height: 64
-				};
+				var snake = new Snake(400, 105);
 				snakes.push(snake);
 			}
 			lastSnakeSpawnEventTime = now;

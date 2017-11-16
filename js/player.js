@@ -3,11 +3,27 @@ var player = new function() {
 	var jumpHeight = 90;
 	var jumpSpeed = 16;
 	var localY = 0;
+	var lastCollisionStartTime = null;
+	var collisionInvincibilityTime = 1000;
+	var isGettingHurt = true;
 	
 	this.x = 140;
 	this.y = 100;
 	this.height = 64;
 	this.width = 64;
+	
+	this.getCollisionLeftBoundary = function() {
+		return this.x + 10;
+	}
+	this.getCollisionRightBoundary = function() {
+		return this.x + 24;
+	}
+	this.getCollisionTopBoundary = function() {
+		return this.y - localY + 10;
+	}
+	this.getCollisionBottomBoundary = function() {
+		return this.y - localY + 24;
+	}
 	
 	var assets = {
 		'running': [
@@ -45,7 +61,21 @@ var player = new function() {
 	var currentState = 'running';
 	
 	this.render = function(context) {
-		sprites[currentState].render(context, this.x, this.y - localY);
+		var y = this.y - localY;
+		if (isGettingHurt) {
+			sprites[currentState].renderAsColor(context, this.x, y, "#FF0000");
+		}
+		else {
+			sprites[currentState].render(context, this.x, y);
+		}
+	}
+
+	this.hurt = function() {
+		var now = new Date().getTime();
+		if (!isGettingHurt) {
+			lastCollisionStartTime = now;
+			isGettingHurt = true;		
+		}		
 	}
 
 	this.update = function() {
@@ -67,13 +97,18 @@ var player = new function() {
 				}
 				break;
 		}
+
+		var now = new Date().getTime();
+		if (isGettingHurt && now > lastCollisionStartTime + collisionInvincibilityTime) {
+			isGettingHurt = false;
+		}
 	}
 
 	this.preLoadImages = function() {
 		for (var key in assets) {
 			if (assets.hasOwnProperty(key)) {
 				var spriteAsset = assets[key];
-				var currentState = new sprite();				
+				var currentState = new Sprite();				
 				currentState.preLoadImages(spriteAsset);
 				sprites[key] = currentState;
 			}
