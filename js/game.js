@@ -5,12 +5,16 @@ var game = new function() {
 	var context = null;
 	var frameRate = 20;
 	var sprites = {};
+	
 	var mountains = {};
 	var grass = {};
 	var backgroundShrubs = {};
 	var foregroundShrubs = {};
+
+	var bats = [];
 	var snakes = [];
-	var lastSnakeSpawnEventTime = null;
+	var lastMonsterSpawnTime = null;
+
 	var runningSpeed = 8;
 			
 	this.preLoadImages = function() {		
@@ -72,6 +76,10 @@ var game = new function() {
 		backgroundShrubs.render(context, 0, shrubsY);
 
 		player.render(context);
+		for (var i = 0; i < bats.length; i++) {
+			var bat = bats[i];
+			sprites['bat'].render(context, bat.x, bat.y);
+		}
 		for (var i = 0; i < snakes.length; i++) {
 			var snake = snakes[i];
 			sprites['snake'].render(context, snake.x, snake.y);
@@ -94,6 +102,27 @@ var game = new function() {
 		
 		var now = new Date().getTime();
 		
+		//TODO: Abstract this somewhere; same with snakes.
+		var batSpeed = runningSpeed;
+		for (var i = bats.length - 1; i >= 0; i--) {
+			var bat = bats[i];
+			bat.x -= batSpeed;
+			if (bat.x <= -64) {
+				bats.splice(i, 1);
+			}
+			else {
+				if (bat.x < player.x + 150 && bat.y < player.y) {
+					bat.y += batSpeed;
+				}
+				if (bat.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
+					&& bat.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
+					&& bat.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
+					&& bat.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
+					player.hurt();
+				}
+			}			
+		}
+
 		var snakeSpeed = runningSpeed;
 		for (var i = snakes.length - 1; i >= 0; i--) {
 			var snake = snakes[i];
@@ -112,13 +141,25 @@ var game = new function() {
 		}
 		
 		var minimumSpawnDelay = 500;
-		if (lastSnakeSpawnEventTime == null || now >= lastSnakeSpawnEventTime + minimumSpawnDelay) {
-			var snakeSpawnChance = 1 / 5;
-			if (Math.random() < snakeSpawnChance) {
-				var snake = new Snake(400, 110);
-				snakes.push(snake);
+		if (lastMonsterSpawnTime == null || now >= lastMonsterSpawnTime + minimumSpawnDelay) {
+			var monsterSpawnChance = 1 / 5;
+			if (Math.random() < monsterSpawnChance) {
+				var numberOfDifferentMonsterTypes = 2;
+				var monsterType = Math.floor(Math.random() * numberOfDifferentMonsterTypes);
+				switch (monsterType) {
+					case 0:
+						var snake = new Snake(400, 110);
+						snakes.push(snake);
+						break;
+					case 1:
+						var bat = new Bat(400, 10);
+						bats.push(bat);
+						break;
+					default:
+						console.log("Error in monster spawning: unknown monster type.");
+				}
 			}
-			lastSnakeSpawnEventTime = now;
+			lastMonsterSpawnTime = now;
 		}
 	}
 }
