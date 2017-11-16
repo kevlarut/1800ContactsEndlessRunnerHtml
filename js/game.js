@@ -13,7 +13,7 @@ var game = new function() {
 
 	var bats = [];
 	var snakes = [];
-	var lastMonsterSpawnTime = null;
+	var lastCreatureSpawnTime = null;
 
 	var runningSpeed = 8;
 			
@@ -26,7 +26,7 @@ var game = new function() {
 				sprites[key] = currentSprite;
 			}
 		}
-				
+
 		mountains = new Background();
 		mountains.preLoadImages(['img/background.png']);
 		mountains.speed = 1;
@@ -37,6 +37,7 @@ var game = new function() {
 		grass.preLoadImages(['img/grass-foreground.png']);
 		grass.speed = runningSpeed;
 		
+		customerManager.preLoadImages();
 		treeManager.preLoadImages();
 		
 		backgroundShrubs = new Background();
@@ -57,12 +58,23 @@ var game = new function() {
 		setInterval(this.gameLoop, 1000 / frameRate);
 				
 		window.document.onkeydown = function(event) {
+			var DOWN = 40;
 			var SPACE = 32;
 			var UP = 38;
 			switch (event.keyCode) {
+				case DOWN:
+					player.drop();
+					break;
 				case UP:
-				case SPACE:
 					player.jump();
+					break;
+				case SPACE:
+					if (player.isJumping()) {
+						player.drop();
+					}
+					else {
+						player.jump();
+					}
 					break;
 			}
 		}
@@ -84,6 +96,7 @@ var game = new function() {
 			var snake = snakes[i];
 			sprites['snake'].render(context, snake.x, snake.y);
 		}
+		customerManager.render(context);
 		grass.render(context, 0, 150);
 
 		foregroundShrubs.render(context, 0, shrubsY);
@@ -99,8 +112,7 @@ var game = new function() {
 		treeManager.update();
 		backgroundShrubs.update();
 		foregroundShrubs.update();
-		
-		var now = new Date().getTime();
+		customerManager.update();
 		
 		//TODO: Abstract this somewhere; same with snakes.
 		var batSpeed = runningSpeed;
@@ -140,10 +152,22 @@ var game = new function() {
 			}			
 		}
 		
-		var minimumSpawnDelay = 500;
-		if (lastMonsterSpawnTime == null || now >= lastMonsterSpawnTime + minimumSpawnDelay) {
+		spawnCreatures();
+	}
+
+	var spawnCreatures = function() {
+
+		var minimumSpawnDelay = 500;		
+		var now = new Date().getTime();
+		
+		if (lastCreatureSpawnTime == null || now >= lastCreatureSpawnTime + minimumSpawnDelay) {
+			var customerSpawnChance = 1 / 10;
 			var monsterSpawnChance = 1 / 5;
-			if (Math.random() < monsterSpawnChance) {
+			var random = Math.random();
+			if (random < customerSpawnChance) {
+				customerManager.spawnRandomCustomer();
+			}
+			else if (random < monsterSpawnChance) {
 				var numberOfDifferentMonsterTypes = 2;
 				var monsterType = Math.floor(Math.random() * numberOfDifferentMonsterTypes);
 				switch (monsterType) {
@@ -159,7 +183,7 @@ var game = new function() {
 						console.log("Error in monster spawning: unknown monster type.");
 				}
 			}
-			lastMonsterSpawnTime = now;
+			lastCreatureSpawnTime = now;
 		}
 	}
 }

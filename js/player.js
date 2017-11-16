@@ -116,6 +116,18 @@ var player = new function() {
 	}
 	
 	this.jump = function() {
-		currentState = 'jumping1';
+		if (currentState != "jumping2") {
+			currentState = 'jumping1';
+		}
+	}
+
+	this.drop = function() {
+		if (currentState == "jumping1") {
+			currentState = "jumping2";
+		}
+	}
+
+	this.isJumping = function() {
+		return currentState == "jumping1" || currentState == "jumping2";
 	}
 }

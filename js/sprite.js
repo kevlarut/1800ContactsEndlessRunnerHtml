@@ -2,6 +2,7 @@ var Sprite = function() {
 	this.animationIndex = 0;
 	this.frameImages = [];
 }
+
 Sprite.prototype.preLoadImages = function(frameSources) {
 	for (var i = 0; i < frameSources.length; i++) {
 		var image = new Image;
@@ -32,6 +33,11 @@ Sprite.prototype.renderAsColor = function(context, x, y, color) {
 	bufferContext.drawImage(image, 0, 0);
 
 	context.drawImage(bufferElement, x, y);
+}
+
+Sprite.prototype.renderFrame = function(context, x, y, frameIndex) {
+	var image = this.frameImages[frameIndex];
+	context.drawImage(image, x, y);
 }
 
 Sprite.prototype.update = function() {
