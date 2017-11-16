@@ -1,3 +1,4 @@
+
 var game = new function() {
 
 	var canvas = null;
@@ -6,11 +7,13 @@ var game = new function() {
 	var sprites = {};
 	var mountains = {};
 	var grass = {};
-	var trees = {};
+	var backgroundShrubs = {};
+	var foregroundShrubs = {};
 	var snakes = [];
 	var lastSnakeSpawnEventTime = null;
+	var runningSpeed = 8;
 			
-	this.preLoadImages = function() {
+	this.preLoadImages = function() {		
 		for (var key in spriteAssets) {
 			if (spriteAssets.hasOwnProperty(key)) {
 				var spriteAsset = spriteAssets[key];
@@ -28,18 +31,17 @@ var game = new function() {
 		
 		grass = new Background();
 		grass.preLoadImages(['img/grass-foreground.png']);
-		grass.speed = 8;
+		grass.speed = runningSpeed;
 		
-		trees = new TreeManager();
-		trees.preLoadImages([
-			'img/tree1.png',
-			'img/tree2.png',
-			'img/tree3.png',
-			'img/tree4.png',
-			'img/tree5.png',
-			'img/tree6.png',
-			'img/tree7.png',
-		]);
+		treeManager.preLoadImages();
+		
+		backgroundShrubs = new Background();
+		backgroundShrubs.preLoadImages(['img/shrubs.png']);
+		backgroundShrubs.speed = runningSpeed / 2;
+		
+		foregroundShrubs = new Background();
+		foregroundShrubs.preLoadImages(['img/shrubs-foreground.png']);
+		foregroundShrubs.speed = runningSpeed * 1.5;
 	}
 	
 	this.start = function() {
@@ -49,11 +51,7 @@ var game = new function() {
 				
 		this.gameLoop();
 		setInterval(this.gameLoop, 1000 / frameRate);
-		
-		if (window.location.protocol == 'file:') {
-			console.error('Tree rendering will not work when using the file protocol.  Use http or https instead.');
-		}
-		
+				
 		window.document.onkeydown = function(event) {
 			var SPACE = 32;
 			var UP = 38;
@@ -67,15 +65,20 @@ var game = new function() {
 	}
 		
 	this.gameLoop = function() {
+		var shrubsY = 92;
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		mountains.render(context, 0, 0);
-		trees.render(context, 0, 0);
+		treeManager.render(context);
+		backgroundShrubs.render(context, 0, shrubsY);
+
 		player.render(context);
 		for (var i = 0; i < snakes.length; i++) {
 			var snake = snakes[i];
 			sprites['snake'].render(context, snake.x, snake.y);
 		}
-		grass.render(context, 0, 200);
+		grass.render(context, 0, 150);
+
+		foregroundShrubs.render(context, 0, shrubsY);
 		
 		for (var key in sprites) {
 			if (sprites.hasOwnProperty(key)) {			
@@ -85,11 +88,13 @@ var game = new function() {
 		player.update();
 		grass.update();
 		mountains.update();
-		trees.update();
+		treeManager.update();
+		backgroundShrubs.update();
+		foregroundShrubs.update();
 		
 		var now = new Date().getTime();
 		
-		var snakeSpeed = 8;
+		var snakeSpeed = runningSpeed;
 		for (var i = snakes.length - 1; i >= 0; i--) {
 			var snake = snakes[i];
 			snake.x -= snakeSpeed;
@@ -110,7 +115,7 @@ var game = new function() {
 		if (lastSnakeSpawnEventTime == null || now >= lastSnakeSpawnEventTime + minimumSpawnDelay) {
 			var snakeSpawnChance = 1 / 5;
 			if (Math.random() < snakeSpawnChance) {
-				var snake = new Snake(400, 158);
+				var snake = new Snake(400, 110);
 				snakes.push(snake);
 			}
 			lastSnakeSpawnEventTime = now;

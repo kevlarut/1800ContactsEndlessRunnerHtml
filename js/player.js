@@ -8,7 +8,7 @@ var player = new function() {
 	var isGettingHurt = true;
 	
 	this.x = 50;
-	this.y = 150;
+	this.y = 100;
 	this.height = 64;
 	this.width = 64;
 	

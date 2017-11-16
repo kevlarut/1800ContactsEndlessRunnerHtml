@@ -1,7 +1,11 @@
+body {
+	background: #000;
+}
+
 canvas {
 	background: #000;	
-	height: 500px;
-	width: 750px;
+	height: 570px; /* 3x actual width */
+	width: 1125px; /* 3x actual width */
 }
 
 canvas.dontBlurPixelsWhenScaling {
