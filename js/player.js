@@ -7,8 +7,8 @@ var player = new function() {
 	var collisionInvincibilityTime = 1000;
 	var isGettingHurt = true;
 	
-	this.x = 140;
-	this.y = 100;
+	this.x = 50;
+	this.y = 150;
 	this.height = 64;
 	this.width = 64;
 	

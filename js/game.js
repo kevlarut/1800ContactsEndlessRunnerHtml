@@ -71,11 +71,11 @@ var game = new function() {
 		mountains.render(context, 0, 0);
 		trees.render(context, 0, 0);
 		player.render(context);
-		grass.render(context, 0, 146);
 		for (var i = 0; i < snakes.length; i++) {
 			var snake = snakes[i];
 			sprites['snake'].render(context, snake.x, snake.y);
 		}
+		grass.render(context, 0, 200);
 		
 		for (var key in sprites) {
 			if (sprites.hasOwnProperty(key)) {			
@@ -110,7 +110,7 @@ var game = new function() {
 		if (lastSnakeSpawnEventTime == null || now >= lastSnakeSpawnEventTime + minimumSpawnDelay) {
 			var snakeSpawnChance = 1 / 5;
 			if (Math.random() < snakeSpawnChance) {
-				var snake = new Snake(400, 105);
+				var snake = new Snake(400, 158);
 				snakes.push(snake);
 			}
 			lastSnakeSpawnEventTime = now;
