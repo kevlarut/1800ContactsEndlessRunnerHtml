@@ -9,22 +9,22 @@ var customerManager = new function() {
 		'date-night': [
 			'img/customer-date.png',
 			'img/customer-date-night.png',
-			'img/dialog-my-brand.png' //TODO: Draw a new portrait
+			'img/dialog-date-night.png'
 		],
 		'girl': [
 			'img/customer-girl.png',
 			'img/customer-girl-happy.png',
-			'img/dialog-my-brand.png' //TODO: Draw a new portrait
+			'img/dialog-girl.png'
 		],
 		'pirate': [
 			'img/customer-pirate.png',
 			'img/customer-pirate-happy.png',
-			'img/dialog-my-brand.png' //TODO: Draw a new portrait
+			'img/dialog-pirate.png'
 		],
 		'the-fall': [
 			'img/customer-the-fall.png',
 			'img/customer-the-fall-happy.png',
-			'img/dialog-my-brand.png' //TODO: Draw a new portrait
+			'img/dialog-the-fall.png'
 		]
 	};
 	var customers = [];
@@ -58,7 +58,7 @@ var customerManager = new function() {
 			var customer = customers[i];
 			customer.x -= customerSpeed;
 			if (customer.x < -64) {
-				customers.splice(i, 1);
+				customers.splice(i--, 1);
 			}
 			else if (!customer.isHappy && isCustomerInCollisionWithPlayer(customer, player)) {
 				deliverContactsToCustomer(customer);

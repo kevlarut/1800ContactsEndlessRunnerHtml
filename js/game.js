@@ -120,7 +120,7 @@ var game = new function() {
 			var bat = bats[i];
 			bat.x -= batSpeed;
 			if (bat.x <= -64) {
-				bats.splice(i, 1);
+				bats.splice(i--, 1);
 			}
 			else {
 				if (bat.x < player.x + 150 && bat.y < player.y) {
@@ -140,7 +140,7 @@ var game = new function() {
 			var snake = snakes[i];
 			snake.x -= snakeSpeed;
 			if (snake.x <= -64) {
-				snakes.splice(i, 1);
+				snakes.splice(i--, 1);
 			}
 			else {
 				if (snake.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
