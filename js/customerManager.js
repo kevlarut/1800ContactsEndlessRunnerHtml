@@ -80,7 +80,7 @@ var customerManager = new function() {
 
 	var deliverContactsToCustomer = function(customer) {
 		customer.isHappy = true;
-		//TODO: Play sound
+		audioManager.playSound(customer.type);
 	}
 
 	this.spawnRandomCustomer = function() {

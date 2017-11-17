@@ -52,7 +52,8 @@ var game = new function() {
 	this.start = function() {
 		canvas = document.getElementById('game');		
 		context = canvas.getContext('2d');		
-		this.preLoadImages();		
+		this.preLoadImages();
+		audioManager.preLoadAudio();
 				
 		this.gameLoop();
 		setInterval(this.gameLoop, 1000 / frameRate);
@@ -130,7 +131,7 @@ var game = new function() {
 					&& bat.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
 					&& bat.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
 					&& bat.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
-					player.hurt();
+					player.hurt();				
 				}
 			}			
 		}
@@ -153,6 +154,8 @@ var game = new function() {
 		}
 		
 		spawnCreatures();
+
+		audioManager.playMusic();
 	}
 
 	var spawnCreatures = function() {

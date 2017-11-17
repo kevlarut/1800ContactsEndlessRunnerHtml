@@ -74,7 +74,8 @@ var player = new function() {
 		var now = new Date().getTime();
 		if (!isGettingHurt) {
 			lastCollisionStartTime = now;
-			isGettingHurt = true;		
+			isGettingHurt = true;	
+			audioManager.playSound('hit');	
 		}		
 	}
 
@@ -118,6 +119,7 @@ var player = new function() {
 	this.jump = function() {
 		if (currentState != "jumping2") {
 			currentState = 'jumping1';
+			audioManager.playSound('jump');
 		}
 	}
 
