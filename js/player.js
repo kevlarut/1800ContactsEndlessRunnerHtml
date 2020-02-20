@@ -93,7 +93,7 @@ var player = new function() {
 	}
 
 	this.getHitPoints = function() {
-		return this.hitPoints;
+		return hitPoints;
 	}
 
 	this.increaseHitPoints = function() {
