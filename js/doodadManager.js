@@ -3,12 +3,16 @@ var doodadManager = new function() {
 	this.startingX = 0;
 	this.x = 0;
 	this.y = 0;
-	
+	this.lastSpawnTime = null;
+
 	var doodads = [];
 	var assets = {
 		'park-bench': [
 			'img/park-bench.png'
-		]
+		],
+		'garbage': [
+			'img/garbage.png'
+		],
 	};
 	var sprites = [];
 
@@ -52,15 +56,22 @@ var doodadManager = new function() {
 	}
 		
 	this.spawnRandomDoodad = function() {	
-		var assetKeys = Object.keys(assets);
-		var imageName = assetKeys[assetKeys.length * Math.random() << 0];
-				
-		var doodad = {
-			x: 0,
-			y: 120,
-			imageName: imageName
-		}
-				
-        doodads.push(doodad);			
+
+		var minimumSpawnDelay = 500;		
+		var now = new Date().getTime();
+
+		if (this.lastSpawnTime == null || now >= this.lastSpawnTime + minimumSpawnDelay) {
+			var assetKeys = Object.keys(assets);
+			var imageName = assetKeys[assetKeys.length * Math.random() << 0];
+					
+			var doodad = {
+				x: 0,
+				y: 120,
+				imageName: imageName
+			}
+					
+			doodads.push(doodad);	
+			this.lastSpawnTime = now;
+		}		
 	}
 }

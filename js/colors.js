@@ -16,5 +16,5 @@ var foregroundTreeColors =
 [
 	"#000000",
 	"#0D0D0D",
-	"#191919"
+	"#090909"
 ];
