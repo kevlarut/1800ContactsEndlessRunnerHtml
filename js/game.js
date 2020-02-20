@@ -13,7 +13,7 @@ var game = new function() {
 	var foregroundShrubs = {};
 
 	var seagulls = [];
-	var snakes = [];
+	var gnatses = [];
 	var lastCreatureSpawnTime = null;
 
 	var runningSpeed = 8;
@@ -103,9 +103,9 @@ var game = new function() {
 			var seagull = seagulls[i];
 			sprites['seagull'].render(context, seagull.x, seagull.y);
 		}
-		for (var i = 0; i < snakes.length; i++) {
-			var snake = snakes[i];
-			sprites['snake'].render(context, snake.x, snake.y);
+		for (var i = 0; i < gnatses.length; i++) {
+			var gnats = gnatses[i];
+			sprites['gnats'].render(context, gnats.x, gnats.y);
 		}
 		customerManager.render(context);
 		grass.render(context, 0, 150);
@@ -128,7 +128,6 @@ var game = new function() {
 		foregroundShrubs.update();
 		customerManager.update();
 		
-		//TODO: Abstract this somewhere; same with snakes.
 		var seagullSpeed = runningSpeed;
 		for (var i = seagulls.length - 1; i >= 0; i--) {
 			var seagull = seagulls[i];
@@ -149,18 +148,18 @@ var game = new function() {
 			}			
 		}
 
-		var snakeSpeed = runningSpeed;
-		for (var i = snakes.length - 1; i >= 0; i--) {
-			var snake = snakes[i];
-			snake.x -= snakeSpeed;
-			if (snake.x <= -64) {
-				snakes.splice(i--, 1);
+		var gnatsSpeed = runningSpeed;
+		for (var i = gnatses.length - 1; i >= 0; i--) {
+			var gnats = gnatses[i];
+			gnats.x -= gnatsSpeed;
+			if (gnats.x <= -64) {
+				gnatses.splice(i--, 1);
 			}
 			else {
-				if (snake.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
-					&& snake.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
-					&& snake.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
-					&& snake.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
+				if (gnats.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
+					&& gnats.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
+					&& gnats.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
+					&& gnats.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
 					player.hurt();
 				}
 			}			
@@ -188,8 +187,12 @@ var game = new function() {
 				var monsterType = Math.floor(Math.random() * numberOfDifferentMonsterTypes);
 				switch (monsterType) {
 					case 0:
-						var snake = new Snake(400, 110);
-						snakes.push(snake);
+						var minY = 70;
+						var maxY = 90;
+						var y = Math.random() * (maxY - minY) + minY;
+
+						var gnats = new Gnats(400, y);
+						gnatses.push(gnats);
 						break;
 					case 1:
 						var seagull = new Seagull(400, 10);

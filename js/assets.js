@@ -8,8 +8,12 @@ var spriteAssets = {
 		'img/seagull-3.png',
 		'img/seagull-4.png'
 	],
-	'snake': [
-		'img/snake1.png',
-		'img/snake2.png'
+	'gnats': [
+		'img/gnats-1.png',
+		'img/gnats-2.png',
+		'img/gnats-3.png',
+		'img/gnats-4.png',
+		'img/gnats-5.png',
+		'img/gnats-6.png',
 	]
 }
