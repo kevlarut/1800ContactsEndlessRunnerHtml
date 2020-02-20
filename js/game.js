@@ -64,7 +64,12 @@ var game = new function() {
 			var UP = 38;
 			switch (event.keyCode) {
 				case DOWN:
-					player.drop();
+					if (player.isJumping()) {
+						player.drop();
+					}
+					else {
+						player.roll();
+					}
 					break;
 				case UP:
 					player.jump();

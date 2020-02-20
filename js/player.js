@@ -2,6 +2,7 @@ var player = new function() {
 
 	var jumpHeight = 90;
 	var jumpSpeed = 16;
+	var rollSpeed = 16;
 	var localY = 0;
 	var lastCollisionStartTime = null;
 	var collisionInvincibilityTime = 1000;
@@ -56,6 +57,12 @@ var player = new function() {
 			'img/yoyo7.png',
 			'img/yoyo8.png'
 		],
+		'rolling1': [
+			'img/yoyo1.png',
+		],
+		'rolling2': [
+			'img/yoyo2.png',
+		],
 	}
 	var sprites = [];
 	var currentState = 'running';
@@ -97,6 +104,20 @@ var player = new function() {
 					localY = 0;
 				}
 				break;
+			case 'rolling1':
+				console.log("do a barrel roll!!");
+				localY -= rollSpeed;
+				if (localY <=0) {
+					currentState = 'rolling2';
+					localY = 0;
+				}
+				break;
+			case 'rolling2':
+				if (localY <=0) {
+					currentState = 'running';
+					lcoalY = 0;
+				}
+				break;
 		}
 
 		var now = new Date().getTime();
@@ -128,8 +149,27 @@ var player = new function() {
 			currentState = "jumping2";
 		}
 	}
+	
+	this.roll = function() {
+		switch (currentState) {
+			case 'running':
+				currentState = 'rolling1';
+				audioManager.playSound('roll');
+				break;
+			case 'rolling1':
+				currentState = 'rolling2';
+				break;
+			case 'rolling2':
+				currentState = 'rolling1';
+				break;
+		}
+	}
 
 	this.isJumping = function() {
 		return currentState == "jumping1" || currentState == "jumping2";
+	}
+
+	this.isRolling = function() {
+		return currentState == 'rolling1' || currentState == 'rolling2';
 	}
 }

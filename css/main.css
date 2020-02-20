@@ -18,3 +18,7 @@ canvas.dontBlurPixelsWhenScaling {
 	image-rendering: pixelated;                 /* Awesome future-browsers       */
 	-ms-interpolation-mode: nearest-neighbor;   /* IE                            */
 }
+
+#debug-data span {
+	color: white;
+}
