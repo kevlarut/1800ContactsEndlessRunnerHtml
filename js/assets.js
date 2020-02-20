@@ -2,11 +2,11 @@ var spriteAssets = {
 	'grass': [
 		'img/grass-foreground.png'
 	],
-	'bat': [
-		'img/bat1.png',
-		'img/bat2.png',
-		'img/bat3.png',
-		'img/bat4.png'
+	'seagull': [
+		'img/seagull-1.png',
+		'img/seagull-2.png',
+		'img/seagull-3.png',
+		'img/seagull-4.png'
 	],
 	'snake': [
 		'img/snake1.png',
