@@ -9,6 +9,7 @@ var game = new function() {
 	var mountains = {};
 	var grass = {};
 	var backgroundShrubs = {};
+	var trail = {};
 	var foregroundShrubs = {};
 
 	var seagulls = [];
@@ -39,11 +40,18 @@ var game = new function() {
 		
 		customerManager.preLoadImages();
 		treeManager.preLoadImages();
+		doodadManager.preLoadImages();
 		
+		doodadManager.speed = runningSpeed / 2;
+
 		backgroundShrubs = new Background();
 		backgroundShrubs.preLoadImages(['img/shrubs.png']);
 		backgroundShrubs.speed = runningSpeed / 2;
 		
+		trail = new Background();
+		trail.preLoadImages(['img/trail.png']);
+		trail.speed = runningSpeed / 2;
+
 		foregroundShrubs = new Background();
 		foregroundShrubs.preLoadImages(['img/shrubs-foreground.png']);
 		foregroundShrubs.speed = runningSpeed * 1.5;
@@ -82,11 +90,13 @@ var game = new function() {
 	}
 		
 	this.gameLoop = function() {
-		var shrubsY = 92;
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		mountains.render(context, 0, 0);
 		treeManager.render(context);
-		backgroundShrubs.render(context, 0, shrubsY);
+		trail.render(context, 0, 130);
+		backgroundShrubs.render(context, 0, 74);
+		
+		doodadManager.render(context);
 
 		player.render(context);
 		for (var i = 0; i < seagulls.length; i++) {
@@ -100,7 +110,8 @@ var game = new function() {
 		customerManager.render(context);
 		grass.render(context, 0, 150);
 
-		foregroundShrubs.render(context, 0, shrubsY);
+		treeManager.renderForeground(context);
+		foregroundShrubs.render(context, 0, 92);
 		
 		for (var key in sprites) {
 			if (sprites.hasOwnProperty(key)) {			
@@ -111,7 +122,9 @@ var game = new function() {
 		grass.update();
 		mountains.update();
 		treeManager.update();
+		doodadManager.update();
 		backgroundShrubs.update();
+		trail.update();
 		foregroundShrubs.update();
 		customerManager.update();
 		
