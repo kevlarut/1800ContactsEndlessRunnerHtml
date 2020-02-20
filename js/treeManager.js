@@ -1,8 +1,9 @@
 var treeManager = new function() {
 
 	this.startingX = 0;
-	x = 0;
-	y = 0;
+	this.x = 0;
+	this.y = -20;
+	this.foregroundY = 0;
 	
 	var treeForeground = [];
 	var treeMidground = [];
@@ -43,22 +44,26 @@ var treeManager = new function() {
 		}
 	}
 
-	this.render = function(context) {
-		
+	this.render = function(context) {		
 		var width = 400; //TODO: This is the x spawn point on the right; figure it out instead of hard coding it here.
 			
 		for (var i = 0; i < treeBackground.length; i++) {
 			var tree = treeBackground[i];			
-			sprites[tree.imageName].renderAsColor(context, x + width + tree.x, y, tree.color);
+			sprites[tree.imageName].renderAsColor(context, this.x + width + tree.x, this.y, tree.color);
 		}	
 		for (var i = 0; i < treeMidground.length; i++) {
 			var tree = treeMidground[i];			
-			sprites[tree.imageName].renderAsColor(context, x + width + tree.x, y, tree.color);
+			sprites[tree.imageName].renderAsColor(context, this.x + width + tree.x, this.y, tree.color);
 		}	
+	}
+
+	this.renderForeground = function(context) {	
+		var width = 400; //TODO: This is the x spawn point on the right; figure it out instead of hard coding it here.
+			
 		for (var i = 0; i < treeForeground.length; i++) {
 			var tree = treeForeground[i];
-			sprites[tree.imageName].renderAsColor(context, x + width + tree.x, y, tree.color);
-		}	
+			sprites[tree.imageName].renderAsColor(context, this.x + width + tree.x, this.foregroundY, tree.color);
+		}
 	}
 	
 	this.update = function() {			
