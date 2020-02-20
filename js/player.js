@@ -14,6 +14,10 @@ var player = new function() {
 	this.y = 100;
 	this.height = 64;
 	this.width = 64;
+	this.isSlideKeyPressed = false;
+
+	var slideAutomaticRecoilTime = 100;
+	var slideEnterTime = null;
 	
 	this.getCollisionLeftBoundary = function() {
 		return this.x + 10;
@@ -61,6 +65,10 @@ var player = new function() {
 		],
 		'sliding': [
 			'img/sliding1.png',
+			'img/sliding2.png',
+			'img/sliding3.png',
+			'img/sliding4.png',
+			'img/sliding5.png',
 		],
 	}
 	var sprites = [];
@@ -106,7 +114,15 @@ var player = new function() {
 		hitPoints = maxHitPoints;
 	}
 
-	this.update = function() {
+	this.stopSliding = function() {
+		if (currentState == "sliding") {
+			currentState = "running";
+			localY = 0;
+		}
+	}
+
+	this.update = function() {			
+		var now = new Date().getTime();
 		sprites[currentState].update();
 		
 		switch (currentState) {
@@ -120,17 +136,20 @@ var player = new function() {
 			case 'jumping2':
 				localY -= jumpSpeed;
 				if (localY <= 0) {
-					currentState = 'running';
+					this.slide();
 					localY = 0;
 				}
 				break;
 			case 'sliding':
-				console.log("do a barrel roll!!");
 				localY -= slideSpeed;
-				if (localY <=0) {
-					currentState = 'running';
+				if (localY <= 0) {
 					localY = 0;
+
+					if (!this.isSlideKeyPressed && now >= slideEnterTime + slideAutomaticRecoilTime) {						
+						this.stopSliding();
+					}
 				}
+
 				break;
 		}
 
@@ -166,7 +185,10 @@ var player = new function() {
 	
 	this.slide = function() {
 		switch (currentState) {
-			case 'running':
+			case "sliding":
+				break;
+			default:
+				slideEnterTime = new Date().getTime();
 				currentState = 'sliding';
 				audioManager.playSound('slide');
 				break;

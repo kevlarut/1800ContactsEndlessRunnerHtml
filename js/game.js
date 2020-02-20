@@ -87,6 +87,7 @@ var game = new function() {
 			var UP = 38;
 			switch (event.keyCode) {
 				case DOWN:
+					player.isSlideKeyPressed = true;
 					if (player.isJumping()) {
 						player.drop();
 					}
@@ -104,6 +105,15 @@ var game = new function() {
 					else {
 						player.jump();
 					}
+					break;
+			}
+		}
+		window.document.onkeyup = function(event) {
+			var DOWN = 40;
+			switch (event.keyCode) {
+				case DOWN:
+					player.isSlideKeyPressed = false;
+					player.stopSliding();
 					break;
 			}
 		}
@@ -220,7 +230,7 @@ var game = new function() {
 						seagulls.push(seagull);
 						break;
 					default:
-						console.log("Error in monster spawning: unknown monster type.");
+						console.error("Error in monster spawning: unknown monster type.");
 				}
 			}
 			lastCreatureSpawnTime = now;
