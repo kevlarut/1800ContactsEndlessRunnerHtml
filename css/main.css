@@ -22,3 +22,15 @@ canvas.dontBlurPixelsWhenScaling {
 #debug-data span {
 	color: white;
 }
+
+#debug-data .game-over {
+	color: red;
+	font-size: larger;
+	display: none;
+}
+
+#debug-data .game-over .show {
+	color: red;
+	font-size: larger;
+	display: inline-block;
+}

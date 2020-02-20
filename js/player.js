@@ -7,6 +7,8 @@ var player = new function() {
 	var lastCollisionStartTime = null;
 	var collisionInvincibilityTime = 1000;
 	var isGettingHurt = true;
+	var hitPoints = 4;
+	var maxHitPoints = 4;
 	
 	this.x = 50;
 	this.y = 100;
@@ -74,13 +76,34 @@ var player = new function() {
 		}
 	}
 
+	this.decreaseHitPoints = function() {
+		if (hitPoints > 0) {
+			hitPoints--;
+		}
+	}
+
 	this.hurt = function() {
 		var now = new Date().getTime();
 		if (!isGettingHurt) {
 			lastCollisionStartTime = now;
 			isGettingHurt = true;	
 			audioManager.playSound('hit');	
+			this.decreaseHitPoints();
 		}		
+	}
+
+	this.getHitPoints = function() {
+		return this.hitPoints;
+	}
+
+	this.increaseHitPoints = function() {
+		if (hitPoints < maxHitPoints) {
+			hitPoints++;
+		}
+	}
+
+	this.resetHitPoints = function() {
+		hitPoints = maxHitPoints;
 	}
 
 	this.update = function() {

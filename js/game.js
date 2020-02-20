@@ -17,6 +17,9 @@ var game = new function() {
 	var lastCreatureSpawnTime = null;
 
 	var runningSpeed = 8;
+	var playerScore = 0;
+	var finalScore = 0;
+	var gameOver = false;
 			
 	this.preLoadImages = function() {		
 		for (var key in spriteAssets) {
@@ -56,12 +59,24 @@ var game = new function() {
 		foregroundShrubs.preLoadImages(['img/shrubs-foreground.png']);
 		foregroundShrubs.speed = runningSpeed * 1.5;
 	}
+
+	this.initPlayer = function() {
+		player.resetHitPoints();
+	}
+
+	this.initGame = function() {
+		playerScore = 0;
+	}
 	
 	this.start = function() {
 		canvas = document.getElementById('game');		
 		context = canvas.getContext('2d');		
 		this.preLoadImages();
 		audioManager.preLoadAudio();
+
+		this.initPlayer();
+		this.initGame();
+		playerScore = 0;
 				
 		this.gameLoop();
 		setInterval(this.gameLoop, 1000 / frameRate);
@@ -124,6 +139,7 @@ var game = new function() {
 			}
 		}
 		player.update();
+		game.update();
 		grass.update();
 		mountains.update();
 		treeManager.update();
@@ -210,8 +226,23 @@ var game = new function() {
 			lastCreatureSpawnTime = now;
 		}
 	}
+
+	this.update = function() {
+		if (player.getHitPoints() <= 0) {
+			gameOver = true;
+			this.finalScore = playerScore;
+			this.saveHighScore(finalScore);
+		}
+		window.updateTextDisplays();
+	}
 }
 
 window.onload = function() {
 	game.start();
 };
+
+window.updateTextDisplays = function() {
+	document.getElementById('hitpoints').innerHTML = player.getHitPoints();
+	document.getElementById('playerScore').innerHTML = this.playerScore;
+	
+}
