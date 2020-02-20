@@ -17,9 +17,9 @@ var game = new function() {
 	var lastCreatureSpawnTime = null;
 
 	var runningSpeed = 8;
-	var playerScore = 0;
+	this.playerScore = 0;
 	var finalScore = 0;
-	var gameOver = false;
+	this.gameOver = false;
 			
 	this.preLoadImages = function() {		
 		for (var key in spriteAssets) {
@@ -60,12 +60,12 @@ var game = new function() {
 		foregroundShrubs.speed = runningSpeed * 1.5;
 	}
 
-	this.initPlayer = function() {
+	initPlayer = function() {
 		player.resetHitPoints();
 	}
 
-	this.initGame = function() {
-		playerScore = 0;
+	initGame = function() {
+		this.playerScore = 0;
 	}
 	
 	this.start = function() {
@@ -74,9 +74,8 @@ var game = new function() {
 		this.preLoadImages();
 		audioManager.preLoadAudio();
 
-		this.initPlayer();
-		this.initGame();
-		playerScore = 0;
+		initPlayer();
+		initGame();
 				
 		this.gameLoop();
 		setInterval(this.gameLoop, 1000 / frameRate);
@@ -120,6 +119,10 @@ var game = new function() {
 	}
 		
 	this.gameLoop = function() {
+		if (this.gameOver) {
+			new game.start();
+		}
+
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		mountains.render(context, 0, 0);
 		treeManager.render(context);
@@ -239,12 +242,20 @@ var game = new function() {
 
 	this.update = function() {
 		if (player.getHitPoints() <= 0) {
-			gameOver = true;
-			this.finalScore = playerScore;
-			this.saveHighScore(finalScore);
+			this.gameOver = true;
+			finalScore = this.playerScore;
+			window.saveHighScore(finalScore);
+			document.getElementById('debug-data').getElementsByClassName('game-over')[0].style.display = "inline-block";
+		}
+		if (!this.gameOver) {
+			this.playerScore++;
 		}
 		window.updateTextDisplays();
 	}
+}
+
+window.saveHighScore = function(score) {
+	console.log("high score = " + score);
 }
 
 window.onload = function() {
@@ -253,6 +264,6 @@ window.onload = function() {
 
 window.updateTextDisplays = function() {
 	document.getElementById('hitpoints').innerHTML = player.getHitPoints();
-	document.getElementById('playerScore').innerHTML = this.playerScore;
+	document.getElementById('playerScore').innerHTML = game.playerScore;
 	
 }

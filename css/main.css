@@ -28,9 +28,3 @@ canvas.dontBlurPixelsWhenScaling {
 	font-size: larger;
 	display: none;
 }
-
-#debug-data .game-over .show {
-	color: red;
-	font-size: larger;
-	display: inline-block;
-}
