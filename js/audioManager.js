@@ -14,7 +14,7 @@ var audioManager = new function() {
 		'girl': { 'src': 'audio/thanks.mp3' },
 		'date-night': { 'src': 'audio/woo-hoo.mp3' },
 		'pirate': { 'src': 'audio/yarr.mp3' },
-		'roll': { 'src': 'audio/oof.mp3' }
+		'slide': { 'src': 'audio/oof.mp3' }
     };
        	
 	this.preLoadAudio = function() {

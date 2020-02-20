@@ -68,7 +68,7 @@ var game = new function() {
 						player.drop();
 					}
 					else {
-						player.roll();
+						player.slide();
 					}
 					break;
 				case UP:
