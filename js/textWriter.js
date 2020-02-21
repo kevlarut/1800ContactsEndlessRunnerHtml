@@ -19,4 +19,4 @@ class TextWriter {
 		this.context.fillText(text, x * 2, y * 2);
 	}
 }
-window.textWriter = new TextWriter();
+if(!window.textWriter) window.textWriter = new TextWriter();
