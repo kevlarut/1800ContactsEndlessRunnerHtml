@@ -19,7 +19,6 @@ var game = new function() {
 	var runningSpeed = 8;
 	this.playerScore = 0;
 	var finalScore = 0;
-	this.gameOver = false;
 			
 	this.preLoadImages = function() {		
 		for (var key in spriteAssets) {
@@ -203,6 +202,9 @@ var game = new function() {
 
 			audioManager.playMusic();
 		}
+		else {
+			window.updateGameOver();
+		}
 	}
 
 	var spawnCreatures = function() {
@@ -242,22 +244,20 @@ var game = new function() {
 	}
 
 	this.update = function() {
-		if (player.getHitPoints() <= 0) {
-			this.gameOver = true;
-			finalScore = this.playerScore;
-			window.saveHighScore(finalScore);
-			window.processGameOver();
-		}
-		if (!this.gameOver) {
+		if (player.getHitPoints() > 0) {
 			this.playerScore++;
 			window.updateTextDisplays();
 		}
 	}
 }
 
-window.processGameOver = function() {
-	window.updateTextDisplays()
-	window.textWriter.write("GAME OVER", 110, 100, "red");
+window.updateGameOver = function() {
+	if (player.getHitPoints() <= 0) {
+		finalScore = this.playerScore;
+		window.saveHighScore(finalScore);
+		window.updateTextDisplays();
+		window.textWriter.write("GAME OVER", 112, 100, "red");
+	}
 }
 
 window.saveHighScore = function(score) {
@@ -269,10 +269,9 @@ window.onload = function() {
 };
 
 window.updateTextDisplays = function() {
-	// window.textWriter.clear();
 	window.textWriter.write("Hit Points: ", 5, 100, "white");
-	window.textWriter.write(player.getHitPoints(), 42, 100, "white");
-	window.textWriter.write("Score: ", 62, 100, "white");
-	window.textWriter.write(game.playerScore, 85, 100, "white");
+	window.textWriter.write(player.getHitPoints(), 43, 100, "white");
+	window.textWriter.write("Score: ", 63, 100, "white");
+	window.textWriter.write(game.playerScore, 86, 100, "white");
 	
 }
