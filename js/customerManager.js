@@ -47,13 +47,19 @@ var customerManager = new function() {
 			var customer = customers[i];
 			var frameIndex = customer.isHappy ? 1 : 0;
 			sprites[customer.type].renderFrame(context, customer.x, customer.y, frameIndex);
-			if (customer.isHappy) {
-				sprites[customer.type].renderFrame(context, 64, 16, 2);
-			}
-
 			hitboxDisplay.render(customer, context);
 		}
 	}
+
+	this.renderHappinessMessages = function(context) {
+		for (var i = 0; i < customers.length; i++) {
+			var customer = customers[i];
+			if (customer.isHappy) {
+				sprites[customer.type].renderFrame(context, 64, 16, 2);
+			}	
+		}
+	}
+
 	this.update = function() {
 		for (var i = 0; i < customers.length; i++) {
 			var customer = customers[i];
