@@ -108,6 +108,10 @@ var player = new function() {
 		return hitPoints;
 	}
 
+	this.getMaxHitPoints = function() {
+		return maxHitPoints;
+	}
+
 	this.increaseHitPoints = function() {
 		if (hitPoints < maxHitPoints) {
 			hitPoints++;

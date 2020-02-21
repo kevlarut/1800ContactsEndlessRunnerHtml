@@ -119,91 +119,90 @@ var game = new function() {
 	}
 		
 	this.gameLoop = function() {
-		if (this.gameOver) {
-			new game.start();
-		}
+		if (player.getHitPoints() > 0) {
+			window.textWriter.clear();
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			mountains.render(context, 0, 0);
+			treeManager.render(context);
+			trail.render(context, 0, 130);
+			backgroundShrubs.render(context, 0, 74);
+			
+			doodadManager.render(context);
 
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		mountains.render(context, 0, 0);
-		treeManager.render(context);
-		trail.render(context, 0, 130);
-		backgroundShrubs.render(context, 0, 74);
-		
-		doodadManager.render(context);
-
-		player.render(context);
-		for (var i = 0; i < seagulls.length; i++) {
-			var seagull = seagulls[i];
-			sprites['seagull'].render(context, seagull.x, seagull.y);
-			hitboxDisplay.render(seagull, context);
-		}
-		for (var i = 0; i < gnatses.length; i++) {
-			var gnats = gnatses[i];
-			sprites['gnats'].render(context, gnats.x, gnats.y);
-			hitboxDisplay.render(gnats, context);
-		}
-		customerManager.render(context);
-		grass.render(context, 0, 150);
-
-		treeManager.renderForeground(context);
-		foregroundShrubs.render(context, 0, 92);
-		
-		for (var key in sprites) {
-			if (sprites.hasOwnProperty(key)) {			
-				sprites[key].update();
+			player.render(context);
+			for (var i = 0; i < seagulls.length; i++) {
+				var seagull = seagulls[i];
+				sprites['seagull'].render(context, seagull.x, seagull.y);
+				hitboxDisplay.render(seagull, context);
 			}
-		}
-		player.update();
-		game.update();
-		grass.update();
-		mountains.update();
-		treeManager.update();
-		doodadManager.update();
-		backgroundShrubs.update();
-		trail.update();
-		foregroundShrubs.update();
-		customerManager.update();
-		
-		var seagullSpeed = runningSpeed;
-		for (var i = seagulls.length - 1; i >= 0; i--) {
-			var seagull = seagulls[i];
-			seagull.x -= seagullSpeed;
-			if (seagull.x <= -64) {
-				seagulls.splice(i--, 1);
+			for (var i = 0; i < gnatses.length; i++) {
+				var gnats = gnatses[i];
+				sprites['gnats'].render(context, gnats.x, gnats.y);
+				hitboxDisplay.render(gnats, context);
 			}
-			else {
-				if (seagull.x < player.x + 150 && seagull.y < player.y) {
-					seagull.y += seagullSpeed;
-				}
-				if (seagull.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
-					&& seagull.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
-					&& seagull.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
-					&& seagull.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
-					player.hurt();				
-				}
-			}			
-		}
+			customerManager.render(context);
+			grass.render(context, 0, 150);
 
-		var gnatsSpeed = runningSpeed;
-		for (var i = gnatses.length - 1; i >= 0; i--) {
-			var gnats = gnatses[i];
-			gnats.x -= gnatsSpeed;
-			if (gnats.x <= -64) {
-				gnatses.splice(i--, 1);
+			treeManager.renderForeground(context);
+			foregroundShrubs.render(context, 0, 92);
+			
+			for (var key in sprites) {
+				if (sprites.hasOwnProperty(key)) {			
+					sprites[key].update();
+				}
 			}
-			else {
-				if (gnats.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
-					&& gnats.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
-					&& gnats.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
-					&& gnats.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
-					player.hurt();
+			player.update();
+			game.update();
+			grass.update();
+			mountains.update();
+			treeManager.update();
+			doodadManager.update();
+			backgroundShrubs.update();
+			trail.update();
+			foregroundShrubs.update();
+			customerManager.update();
+			
+			var seagullSpeed = runningSpeed;
+			for (var i = seagulls.length - 1; i >= 0; i--) {
+				var seagull = seagulls[i];
+				seagull.x -= seagullSpeed;
+				if (seagull.x <= -64) {
+					seagulls.splice(i--, 1);
 				}
-			}			
-		}
-		
-		spawnCreatures();
+				else {
+					if (seagull.x < player.x + 150 && seagull.y < player.y) {
+						seagull.y += seagullSpeed;
+					}
+					if (seagull.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
+						&& seagull.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
+						&& seagull.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
+						&& seagull.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
+						player.hurt();				
+					}
+				}			
+			}
 
-		audioManager.playMusic();
+			var gnatsSpeed = runningSpeed;
+			for (var i = gnatses.length - 1; i >= 0; i--) {
+				var gnats = gnatses[i];
+				gnats.x -= gnatsSpeed;
+				if (gnats.x <= -64) {
+					gnatses.splice(i--, 1);
+				}
+				else {
+					if (gnats.getCollisionRightBoundary() >= player.getCollisionLeftBoundary()
+						&& gnats.getCollisionLeftBoundary() <= player.getCollisionRightBoundary()
+						&& gnats.getCollisionBottomBoundary() >= player.getCollisionTopBoundary()
+						&& gnats.getCollisionTopBoundary() <= player.getCollisionBottomBoundary()) {
+						player.hurt();
+					}
+				}			
+			}
+			
+			spawnCreatures();
+
+			audioManager.playMusic();
+		}
 	}
 
 	var spawnCreatures = function() {
@@ -247,13 +246,18 @@ var game = new function() {
 			this.gameOver = true;
 			finalScore = this.playerScore;
 			window.saveHighScore(finalScore);
-			document.getElementById('debug-data').getElementsByClassName('game-over')[0].style.display = "inline-block";
+			window.processGameOver();
 		}
 		if (!this.gameOver) {
 			this.playerScore++;
+			window.updateTextDisplays();
 		}
-		window.updateTextDisplays();
 	}
+}
+
+window.processGameOver = function() {
+	window.updateTextDisplays()
+	window.textWriter.write("GAME OVER", 110, 100, "red");
 }
 
 window.saveHighScore = function(score) {
@@ -265,7 +269,10 @@ window.onload = function() {
 };
 
 window.updateTextDisplays = function() {
-	document.getElementById('hitpoints').innerHTML = player.getHitPoints();
-	document.getElementById('playerScore').innerHTML = game.playerScore;
+	// window.textWriter.clear();
+	window.textWriter.write("Hit Points: ", 5, 100, "white");
+	window.textWriter.write(player.getHitPoints(), 42, 100, "white");
+	window.textWriter.write("Score: ", 62, 100, "white");
+	window.textWriter.write(game.playerScore, 85, 100, "white");
 	
 }

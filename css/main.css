@@ -4,10 +4,20 @@ body {
 	padding: 0;
 }
 
-canvas {
+canvas#game {
 	background: #000;	
 	height: 570px; /* 3x actual width */
 	width: 1125px; /* 3x actual width */
+}
+
+canvas#text {
+	background: none;	
+	min-width: 1125px; /* 3x actual width */
+	min-height: 400px;
+	height: 100%;
+	position:absolute;
+	left: 0;
+	top: 0;
 }
 
 canvas.dontBlurPixelsWhenScaling {
@@ -17,14 +27,4 @@ canvas.dontBlurPixelsWhenScaling {
 	image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
 	image-rendering: pixelated;                 /* Awesome future-browsers       */
 	-ms-interpolation-mode: nearest-neighbor;   /* IE                            */
-}
-
-#debug-data span {
-	color: white;
-}
-
-#debug-data .game-over {
-	color: red;
-	font-size: larger;
-	display: none;
 }
