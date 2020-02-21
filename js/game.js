@@ -279,16 +279,11 @@ window.updateGameOver = function() {
 		if (game.restartTimer == null) {
 			game.restartTimer = now;
 			finalScore = game.playerScore;
-			window.saveHighScore(finalScore);
 			window.updateTextDisplays();
 			window.textWriter.writeCentered("GAME OVER", 112, 100, "red");
 			window.textWriter.writeCentered("Your next life begins soon...", 112, 110, "white");
 		}
 	}
-}
-
-window.saveHighScore = function(score) {
-	console.log("high score = " + score);
 }
 
 window.onload = function() {
@@ -303,3 +298,12 @@ window.updateTextDisplays = function() {
 	window.textWriter.write(game.playerScore, 86, 100, "white");
 	
 }
+
+var arrow_keys_handler = function(e) {
+    switch(e.keyCode){
+        case 37: case 39: case 38:  case 40: // Arrow keys
+        case 32: e.preventDefault(); break; // Space
+        default: break; // do not block other keys
+    }
+};
+window.addEventListener("keydown", arrow_keys_handler, false);
