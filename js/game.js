@@ -156,7 +156,8 @@ var game = new function() {
 
 			treeManager.renderForeground(context);
 			foregroundShrubs.render(context, 0, 92);
-			
+			customerManager.renderHappinessMessages(context);
+
 			for (var key in sprites) {
 				if (sprites.hasOwnProperty(key)) {			
 					sprites[key].update();
@@ -280,8 +281,8 @@ window.updateGameOver = function() {
 			game.restartTimer = now;
 			finalScore = game.playerScore;
 			window.updateTextDisplays();
-			window.textWriter.writeCentered("GAME OVER", 112, 100, "red");
-			window.textWriter.writeCentered("Your next life begins soon...", 112, 110, "white");
+			window.textWriter.writeCentered("GAME OVER", 130, 70, "#eb5023");
+			window.textWriter.writeCentered("Your next life begins soon...", 130, 80, "white");
 		}
 	}
 }
