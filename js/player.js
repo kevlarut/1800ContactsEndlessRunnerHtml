@@ -20,16 +20,18 @@ var player = new function() {
 	var slideEnterTime = null;
 	
 	this.getCollisionLeftBoundary = function() {
-		return this.x + 10;
+		return this.x + 26;
 	}
 	this.getCollisionRightBoundary = function() {
-		return this.x + 24;
+		return this.x + this.width - 22;
 	}
 	this.getCollisionTopBoundary = function() {
-		return this.y - localY + 10;
+		var slidingOffset = this.isSliding() ? 6 : 0;
+		return this.y - localY + 14 + slidingOffset;
 	}
 	this.getCollisionBottomBoundary = function() {
-		return this.y - localY + 24;
+		var slidingOffset = this.isSliding() ? 6 : 0;
+		return this.y - localY + 28 + slidingOffset;
 	}
 	
 	var assets = {
@@ -82,6 +84,8 @@ var player = new function() {
 		else {
 			sprites[currentState].render(context, this.x, y);
 		}
+
+		hitboxDisplay.render(this, context);
 	}
 
 	this.decreaseHitPoints = function() {

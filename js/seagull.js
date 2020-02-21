@@ -5,13 +5,13 @@ var Seagull = function(x, y) {
 	this.width = 64;
 }
 Seagull.prototype.getCollisionRightBoundary = function() {
-    return this.x + 32;
+    return this.x + 36;
 }
 Seagull.prototype.getCollisionLeftBoundary = function() {
-    return this.x + 4;
+    return this.x + 20;
 }
 Seagull.prototype.getCollisionTopBoundary = function() {
-    return this.y + 8;
+    return this.y + 16;
 }
 Seagull.prototype.getCollisionBottomBoundary = function() {
     return this.y + 32;

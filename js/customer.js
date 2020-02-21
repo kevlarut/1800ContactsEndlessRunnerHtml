@@ -4,10 +4,10 @@ var Customer = function() {
     this.isHappy = false;
 }
 Customer.prototype.getCollisionRightBoundary = function() {
-    return this.x + 24;
+    return this.x + 40;
 }
 Customer.prototype.getCollisionLeftBoundary = function() {
-    return this.x + 10;
+    return this.x + 26;
 }
 Customer.prototype.getCollisionTopBoundary = function() {
     return this.y + 10;

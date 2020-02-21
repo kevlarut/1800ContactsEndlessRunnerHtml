@@ -135,10 +135,12 @@ var game = new function() {
 		for (var i = 0; i < seagulls.length; i++) {
 			var seagull = seagulls[i];
 			sprites['seagull'].render(context, seagull.x, seagull.y);
+			hitboxDisplay.render(seagull, context);
 		}
 		for (var i = 0; i < gnatses.length; i++) {
 			var gnats = gnatses[i];
 			sprites['gnats'].render(context, gnats.x, gnats.y);
+			hitboxDisplay.render(gnats, context);
 		}
 		customerManager.render(context);
 		grass.render(context, 0, 150);

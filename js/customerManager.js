@@ -50,9 +50,10 @@ var customerManager = new function() {
 			if (customer.isHappy) {
 				sprites[customer.type].renderFrame(context, 64, 16, 2);
 			}
+
+			hitboxDisplay.render(customer, context);
 		}
 	}
-
 	this.update = function() {
 		for (var i = 0; i < customers.length; i++) {
 			var customer = customers[i];

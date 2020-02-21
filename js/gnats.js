@@ -5,14 +5,14 @@ var Gnats = function(x, y) {
 	this.width = 64;
 }
 Gnats.prototype.getCollisionRightBoundary = function() {
-    return this.x + 32;
+    return this.x + 40;
 }
 Gnats.prototype.getCollisionLeftBoundary = function() {
-    return this.x + 4;
+    return this.x + 24;
 }
 Gnats.prototype.getCollisionTopBoundary = function() {
-    return this.y + 8;
+    return this.y + 24;
 }
 Gnats.prototype.getCollisionBottomBoundary = function() {
-    return this.y + 32;
+    return this.y + 40;
 }
