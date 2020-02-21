@@ -27,6 +27,7 @@ gulp.task('default', function () {
         .pipe(concat('seemore-run.js'))
         .pipe(replace('img/', '/assets/game/img/'))
         .pipe(replace('audio/', '/assets/game/audio/'))
+        .pipe(replace('../fonts/', '/assets/game/fonts/'))
         .pipe(uglify())
         .pipe(gulp.dest('c:\\dev\\website\\src\\assets\\game'))
 });

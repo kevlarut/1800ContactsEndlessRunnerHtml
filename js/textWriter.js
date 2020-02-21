@@ -14,7 +14,7 @@ class TextWriter {
 	}
 	_output(text, x, y, style, textAlign) {
 		this.context.textAlign = textAlign;
-		this.context.font = '16px "Here Lies MECC"';
+		this.context.font = '16px "MECC"';
 		this.context.fillStyle = style;
 		this.context.fillText(text, x * 2, y * 2);
 	}

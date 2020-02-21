@@ -291,12 +291,15 @@ window.onload = function() {
 };
 
 window.updateTextDisplays = function() {
+	var headsUpDisplayY = 16;
 	window.textWriter.clear();
-	window.textWriter.write("Hit Points: ", 5, 100, "white");
-	window.textWriter.write(player.getHitPoints(), 43, 100, "white");
-	window.textWriter.write("Score: ", 63, 100, "white");
-	window.textWriter.write(game.playerScore, 86, 100, "white");
-	
+	window.textWriter.write("Score: ", 10, headsUpDisplayY, "#001d9b");
+	window.textWriter.write(game.playerScore, 60, headsUpDisplayY, "#001d9b");
+	window.textWriter.write("Health:", 190, headsUpDisplayY, "#001d9b");
+	var x = 240;
+	for (var i = 0; i < this.player.getHitPoints(); i++) {
+		window.textWriter.write("❤", x + (i * 8), headsUpDisplayY, "#001d9b");
+	}	
 }
 
 var arrow_keys_handler = function(e) {
