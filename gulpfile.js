@@ -28,5 +28,5 @@ gulp.task('default', function () {
         .pipe(replace('img/', '/assets/game/img/'))
         .pipe(replace('audio/', '/assets/game/audio/'))
         .pipe(uglify())
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('c:\\dev\\website\\src\\assets\\game'))
 });

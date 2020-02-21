@@ -19,6 +19,8 @@ var game = new function() {
 	var runningSpeed = 8;
 	this.playerScore = 0;
 	var finalScore = 0;
+	
+	var restartTimer = null;
 			
 	this.preLoadImages = function() {		
 		for (var key in spriteAssets) {
@@ -59,25 +61,35 @@ var game = new function() {
 		foregroundShrubs.speed = runningSpeed * 1.5;
 	}
 
-	initPlayer = function() {
+	this.initPlayer = function() {
 		player.resetHitPoints();
 	}
 
-	initGame = function() {
+	this.initGame = function() {
 		this.playerScore = 0;
 	}
 	
+	this.restart = function() {
+		clearTimeout(this.gameLoopInterval);
+		gnatses = [];
+		seagulls = [];
+		customers = [];
+
+		this.start();
+	}
+
 	this.start = function() {
+		console.log("Starting the game!");
 		canvas = document.getElementById('game');		
 		context = canvas.getContext('2d');		
 		this.preLoadImages();
 		audioManager.preLoadAudio();
 
-		initPlayer();
-		initGame();
+		this.initPlayer();
+		this.initGame();
 				
 		this.gameLoop();
-		setInterval(this.gameLoop, 1000 / frameRate);
+		this.gameLoopInterval = setInterval(this.gameLoop, 1000 / frameRate);
 				
 		window.document.onkeydown = function(event) {
 			var DOWN = 40;
@@ -252,11 +264,26 @@ var game = new function() {
 }
 
 window.updateGameOver = function() {
-	if (player.getHitPoints() <= 0) {
-		finalScore = this.playerScore;
-		window.saveHighScore(finalScore);
-		window.updateTextDisplays();
-		window.textWriter.write("GAME OVER", 112, 100, "red");
+	if (player.getHitPoints() <= 0) {		
+		var now = new Date().getTime();
+		var timeToRestart = 3000;
+
+		if (game.restartTimer) {
+			if (now >= game.restartTimer + timeToRestart) {
+				game.restartTimer = null;
+				game.restart();
+				return;
+			}
+		}
+
+		if (game.restartTimer == null) {
+			game.restartTimer = now;
+			finalScore = game.playerScore;
+			window.saveHighScore(finalScore);
+			window.updateTextDisplays();
+			window.textWriter.writeCentered("GAME OVER", 112, 100, "red");
+			window.textWriter.writeCentered("Your next life begins soon...", 112, 110, "white");
+		}
 	}
 }
 
@@ -269,6 +296,7 @@ window.onload = function() {
 };
 
 window.updateTextDisplays = function() {
+	window.textWriter.clear();
 	window.textWriter.write("Hit Points: ", 5, 100, "white");
 	window.textWriter.write(player.getHitPoints(), 43, 100, "white");
 	window.textWriter.write("Score: ", 63, 100, "white");
